@@ -7,3 +7,5 @@ export const IMPLEMENTED_METHODS = {
   ['GET']: true,
   ['POST']: true,
 };
+
+export const ID_REGEX = '[0-9a-f]{24}';

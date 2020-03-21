@@ -5,12 +5,13 @@ const {
   DB_HOST: host,
   DB_PORT: port,
   DB_AUTH_SOURCE: authSource,
+  ENV: env,
 } = process.env;
 
 export default {
   user,
   password,
-  name,
+  name: `${name}-${env}`,
   host,
   port,
   authSource,
