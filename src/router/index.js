@@ -1,6 +1,6 @@
 import { bodyParser } from '../utils';
 
-import { badRequest, internalServerError } from './responses';
+import { badRequest, internalServerError } from '../responses';
 
 export async function handleRequest(req, res) {
   const { url, method } = req;
