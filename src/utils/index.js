@@ -10,3 +10,8 @@ export const bodyRequired = method => method === 'POST';
 export const testURLRegex = (regex, str) => new RegExp(`^${regex}/*$`).test(str)
 
 export const isMethodImplemented = method => IMPLEMENTED_METHODS[method];
+
+export const forEach = async (arr, cb) => {
+  for (let i = 0; i < arr.length; i++)
+    await cb(arr[i], i, arr);
+};
