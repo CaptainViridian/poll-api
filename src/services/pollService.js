@@ -5,10 +5,7 @@ export async function getById(id) {
     const poll = await Poll.findByIdAndUpdate(id, { $inc: { views: 1 } }).select('-options.votes -views');
     return poll;
   } catch (err) {
-    if(err.name === 'CastError')
-      return;
-    else
-      throw err;
+    throw err;
   }
 }
 

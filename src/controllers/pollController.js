@@ -26,7 +26,6 @@ export async function create(reqData, res) {
     if(createdPoll)
       res.end(JSON.stringify({ pollId: createdPoll._id }));
   } catch (err) {
-    console.log(err)
     internalServerError(res);
   }
 }
