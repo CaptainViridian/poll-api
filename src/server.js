@@ -1,10 +1,10 @@
-import http from 'http';
+import { createServer } from 'http';
 import dotenv from 'dotenv';
 import { handleRequest } from './routes';
 
 dotenv.config();
 
-const server = http.createServer(handleRequest);
+const server = createServer(handleRequest);
 
 export async function startServer() {
   const { default: apiConfig } = await import('./config/api');
