@@ -17,7 +17,7 @@ export async function connect() {
 
 export async function disconnect() {
   try {
-    await mongoose.disconnect()
+    await mongoose.disconnect();
   } catch (err) {
     console.log(err.message);
   }

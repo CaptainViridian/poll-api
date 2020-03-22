@@ -19,9 +19,11 @@
   "author": "Bernardo Chagas",
   "license": "ISC",
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "docker-compose": "^0.23.3",
+    "eslint": "^6.8.0",
     "mocha": "^7.1.1",
     "nodemon": "^2.0.2",
     "webpack": "^4.42.0",

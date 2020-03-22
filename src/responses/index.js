@@ -8,7 +8,7 @@ export const notImplemented = (res, message) => sendResponse(501, message, res);
 
 export const noContent = (res) => sendResponse(204, undefined, res);
 
-export const unprocessableEntity = (res, message) => sendResponse(422, message, res)
+export const unprocessableEntity = (res, message) => sendResponse(422, message, res);
 
 function sendResponse(statusCode, message, res) {
   res.statusCode = statusCode;
