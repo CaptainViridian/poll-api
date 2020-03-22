@@ -13,33 +13,33 @@ class Route {
 class Router {
   constructor() {
     this.routes = [];
-  }
 
-  get = (urlExp, func) => {
-    this.routes.push(new Route('GET', urlExp, func));
-    return this;
-  }
+    this.get = (urlExp, func) => {
+      this.routes.push(new Route('GET', urlExp, func));
+      return this;
+    };
 
-  post = (urlExp, func) => {
-    this.routes.push(new Route('POST', urlExp, func));
-    return this;
-  }
+    this.post = (urlExp, func) => {
+      this.routes.push(new Route('POST', urlExp, func));
+      return this;
+    };
 
-  matchReqURL = (reqData, res) => {
-    const { method, url } = reqData;
+    this.matchReqURL = (reqData, res) => {
+      const { method, url } = reqData;
 
-    res.statusCode = RES_STATUS[method];
+      res.statusCode = RES_STATUS[method];
 
-    for (const route of this.routes) {
-      const matches = testURLRegex(route.urlExp, url);
-      if(matches && route.method === method) {
-        const urlData = url.split('/');
-        route.func({ ...reqData, urlData }, res);
-        return;
+      for (const route of this.routes) {
+        const matches = testURLRegex(route.urlExp, url);
+        if(matches && route.method === method) {
+          const urlData = url.split('/');
+          route.func({ ...reqData, urlData }, res);
+          return;
+        }
       }
-    }
 
-    notFound(res);
+      notFound(res);
+    };
   }
 }
 

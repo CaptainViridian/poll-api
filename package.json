@@ -3,14 +3,17 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "module": "src/server.js",
   "scripts": {
-    "build": "webpack",
+    "build": "rm -f dist/* && webpack",
+    "deploy": "npm run build && npm run compose:build:prod && docker-compose -f docker-compose-prod.yml up -d",
+    "compose:build:prod": "docker-compose -f docker-compose-prod.yml build",
     "compose:build": "docker-compose build",
     "compose:up": "docker-compose up",
     "compose:down": "docker-compose down",
     "start": "node dist/index.js",
-    "start:dev": "npm run compose:up",
-    "nodemon:dev": "nodemon index.js",
+    "start:dev": "npm run compose:build && npm run compose:up",
+    "nodemon:dev": "nodemon -r esm index.js",
     "test": "ENV=test DB_HOST=localhost API_PORT=9999 mocha test --require esm --exit"
   },
   "author": "Bernardo Chagas",
@@ -29,5 +32,12 @@
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
     "mongoose": "^5.9.5"
-  }
+  },
+  "sideEffects": [
+    "./src/controllers/*",
+    "./src/models/*",
+    "./src/routes/*",
+    "./src/services/*",
+    "./src/server.js"
+  ]
 }

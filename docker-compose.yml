@@ -21,3 +21,4 @@ services:
       - '9001:9001'
     depends_on:
       - db
+    command: npm run nodemon:dev
