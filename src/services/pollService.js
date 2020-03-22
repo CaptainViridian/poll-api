@@ -5,12 +5,8 @@ import { WrongBodyError } from '../error';
 const { Error: { ValidationError, CastError } } = mongoose;
 
 export async function getById(id) {
-  try {
-    const poll = await Poll.findByIdAndUpdate(id, { $inc: { views: 1 } }).select('-options.votes -views');
-    return poll;
-  } catch (err) {
-    throw err;
-  }
+  const poll = await Poll.findByIdAndUpdate(id, { $inc: { views: 1 } }).select('-options.votes -views');
+  return poll;
 }
 
 export async function create(body) {
@@ -36,7 +32,7 @@ export async function createVote(pollId, body) {
   try {
     const poll = await Poll.findOneAndUpdate(
       { _id: pollId, 'options._id': optionId },
-      { $inc: { "options.$.votes": 1 } },
+      { $inc: { 'options.$.votes': 1 } },
     );
     return poll;
   } catch (err) {
@@ -47,17 +43,13 @@ export async function createVote(pollId, body) {
 }
 
 export async function getStatsById(id) {
-  try {
-    const poll = await Poll.findById(id, 'views options');
+  const poll = await Poll.findById(id, 'views options');
 
-    const { views, options } = poll;
+  const { views, options } = poll;
 
-    const votes = options.map( ({ _id, votes }) => (
-      { optionId: _id, qty: votes }
-    ));
+  const votes = options.map( ({ _id, votes }) => (
+    { optionId: _id, qty: votes }
+  ));
 
-    return { views, votes };
-  } catch (err) {
-    throw err;
-  }
+  return { views, votes };
 }

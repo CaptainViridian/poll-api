@@ -7,7 +7,7 @@ export const bodyParser = promisify(jsonBody);
 
 export const bodyRequired = method => method === 'POST';
 
-export const testURLRegex = (regex, str) => new RegExp(`^${regex}/*$`).test(str)
+export const testURLRegex = (regex, str) => new RegExp(`^${regex}/*$`).test(str);
 
 export const isMethodImplemented = method => IMPLEMENTED_METHODS[method];
 

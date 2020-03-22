@@ -19,7 +19,7 @@ export async function handleRequest(req, res) {
   let body;
   if(bodyRequired(method))
     try {
-       body = await bodyParser(req);
+      body = await bodyParser(req);
     } catch (e) {
       if(e instanceof SyntaxError) {
         badRequest(res);

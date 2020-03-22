@@ -1,7 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 
-import mock from './mock'
+import mock from './mock';
 import seed from './seeder';
 import app from '../src/server';
 import * as db from '../src/db';
@@ -9,8 +9,7 @@ import * as db from '../src/db';
 import { ID_REGEX } from '../src/utils/constants';
 
 chai.use(chaiHttp);
-
-const should = chai.should();
+chai.should();
 
 const resetDB = async () => {
   await seed();
@@ -27,8 +26,8 @@ describe('Routes', () => {
       const { poll, poll: {  _id: id } } = mock();
 
       const res = await chai
-      .request(app)
-      .get(url(id));
+        .request(app)
+        .get(url(id));
 
       res.should.have.status(200);
       res.body.should.deep.equal(poll);
@@ -38,8 +37,8 @@ describe('Routes', () => {
       const { randomId } = mock();
 
       const res = await chai
-      .request(app)
-      .get(url(randomId));
+        .request(app)
+        .get(url(randomId));
 
       res.should.have.status(404);
     });
@@ -48,8 +47,8 @@ describe('Routes', () => {
       const invalidId = '123';
 
       const res = await chai
-      .request(app)
-      .get(url(invalidId));
+        .request(app)
+        .get(url(invalidId));
 
       res.should.have.status(404);
     });
@@ -60,9 +59,9 @@ describe('Routes', () => {
       const { newPoll } = mock();
 
       const res = await chai
-      .request(app)
-      .post('/poll')
-      .send(newPoll);
+        .request(app)
+        .post('/poll')
+        .send(newPoll);
 
       res.should.have.status(201);
       res.body.should.have.property('pollId').that.matches(new RegExp(`^${ID_REGEX}$`));
@@ -74,9 +73,9 @@ describe('Routes', () => {
       newPoll.options = undefined;
 
       const res = await chai
-      .request(app)
-      .post('/poll')
-      .send(newPoll);
+        .request(app)
+        .post('/poll')
+        .send(newPoll);
 
       res.should.have.status(422);
 
@@ -84,9 +83,9 @@ describe('Routes', () => {
       oneMorePoll.description = undefined;
 
       const oneMoreRes = await chai
-      .request(app)
-      .post('/poll')
-      .send(oneMorePoll);
+        .request(app)
+        .post('/poll')
+        .send(oneMorePoll);
 
       oneMoreRes.should.have.status(422);
     });
@@ -96,9 +95,9 @@ describe('Routes', () => {
       newPoll.options = [];
 
       const res = await chai
-      .request(app)
-      .post('/poll')
-      .send(newPoll);
+        .request(app)
+        .post('/poll')
+        .send(newPoll);
 
       res.should.have.status(422);
     });
@@ -118,9 +117,9 @@ describe('Routes', () => {
       const { _id: optionId } = options[0];
 
       const res = await chai
-      .request(app)
-      .post(url(pollId))
-      .send({ optionId });
+        .request(app)
+        .post(url(pollId))
+        .send({ optionId });
 
       res.should.have.status(204);
       res.body.should.be.empty;
@@ -134,9 +133,9 @@ describe('Routes', () => {
       } = mock();
 
       const res = await chai
-      .request(app)
-      .post(url(pollId))
-      .send();
+        .request(app)
+        .post(url(pollId))
+        .send();
 
       res.should.have.status(400);
     });
@@ -149,9 +148,9 @@ describe('Routes', () => {
       const { _id: optionId } = options[0];
 
       const res = await chai
-      .request(app)
-      .post(url(pollId))
-      .send({ optionId });
+        .request(app)
+        .post(url(pollId))
+        .send({ optionId });
 
       res.should.have.status(404);
     });
@@ -161,9 +160,9 @@ describe('Routes', () => {
       const invalidOptionId = '123';
 
       const res = await chai
-      .request(app)
-      .post(url(pollId))
-      .send({ optionId: invalidOptionId });
+        .request(app)
+        .post(url(pollId))
+        .send({ optionId: invalidOptionId });
 
       res.should.have.status(404);
     });
@@ -174,8 +173,8 @@ describe('Routes', () => {
       const { poll: { _id: pollId }, pollStats } = mock();
 
       const res = await chai
-      .request(app)
-      .get(`/poll/${pollId}/stats`);
+        .request(app)
+        .get(`/poll/${pollId}/stats`);
 
       res.should.have.status(200);
       res.body.should.deep.equal(pollStats);

@@ -13,10 +13,10 @@ export async function startServer() {
   await db.connect();
 
   server
-  .listen(apiConfig.port, apiConfig.host, () => {
-    const { port, host } = apiConfig;
-    console.log(`Server running at http://${host}:${port}/`);
-  });
+    .listen(apiConfig.port, apiConfig.host, () => {
+      const { port, host } = apiConfig;
+      console.log(`Server running at http://${host}:${port}/`);
+    });
 }
 
 export default server;
