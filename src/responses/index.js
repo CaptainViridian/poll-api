@@ -6,6 +6,10 @@ export const notFound = (res, message) => sendResponse(404, message, res);
 
 export const notImplemented = (res, message) => sendResponse(501, message, res);
 
+export const noContent = (res) => sendResponse(204, undefined, res);
+
+export const unprocessableEntity = (res, message) => sendResponse(422, message, res)
+
 function sendResponse(statusCode, message, res) {
   res.statusCode = statusCode;
   res.end(message && JSON.stringify({ message }));
