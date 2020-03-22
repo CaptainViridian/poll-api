@@ -1,4 +1,8 @@
+import mongoose from 'mongoose';
 import Poll from '../models/Poll';
+import { WrongBodyError } from '../error';
+
+const { Error: { ValidationError, CastError } } = mongoose;
 
 export async function getById(id) {
   try {
@@ -10,19 +14,24 @@ export async function getById(id) {
 }
 
 export async function create(body) {
-  let { description, options } = body;
-  options = options.map(option => ({ description: option, votes: 0 }));
+  let { description, options: optionsDescriptions } = body;
 
   try {
-    const poll = await Poll.create({ description, options, views: 0 });
+    const options = optionsDescriptions.map(description => ({ description }));
+
+    const poll = await Poll.create({ description, options });
     return poll;
   } catch (err) {
-    throw err;
+    if(err instanceof ValidationError || err instanceof TypeError)
+      throw new WrongBodyError();
+    else throw err;
   }
 }
 
 export async function createVote(pollId, body) {
   const { optionId } = body;
+  if(!optionId)
+    throw new WrongBodyError();
 
   try {
     const poll = await Poll.findOneAndUpdate(
@@ -31,7 +40,9 @@ export async function createVote(pollId, body) {
     );
     return poll;
   } catch (err) {
-    throw err;
+    if(err instanceof CastError)
+      return;
+    else throw err;
   }
 }
 

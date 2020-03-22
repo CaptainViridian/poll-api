@@ -21,7 +21,7 @@ export async function handleRequest(req, res) {
     try {
        body = await bodyParser(req);
     } catch (e) {
-      if(e.name === 'SyntaxError') {
+      if(e instanceof SyntaxError) {
         badRequest(res);
       }
       else
