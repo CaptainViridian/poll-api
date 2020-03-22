@@ -60,6 +60,6 @@ export async function showStats(reqData, res) {
     const stats = await pollService.getStatsById(id);
     res.end(JSON.stringify(stats));
   } catch (err) {
-
+    internalServerError(res);
   }
 }
