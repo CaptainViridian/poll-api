@@ -1,5 +1,6 @@
-import { pollService } from '../services';
+import * as pollService from '../services/pollService';
 import { badRequest, internalServerError, notFound, noContent, unprocessableEntity } from '../responses';
+import { WrongBodyError } from '../error';
 
 export async function show(reqData, res) {
   const { urlData } = reqData;
@@ -26,7 +27,10 @@ export async function create(reqData, res) {
     if(createdPoll)
       res.end(JSON.stringify({ pollId: createdPoll._id }));
   } catch (err) {
-    internalServerError(res);
+    if(err instanceof WrongBodyError)
+      unprocessableEntity(res);
+    else
+      internalServerError(res);
   }
 }
 
@@ -41,7 +45,10 @@ export async function createVote(reqData, res) {
     else
       noContent(res);
   } catch (err) {
-    internalServerError(res);
+    if(err instanceof WrongBodyError)
+      badRequest(res);
+    else
+      internalServerError(res);
   }
 }
 
