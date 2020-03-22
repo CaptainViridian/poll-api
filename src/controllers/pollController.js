@@ -1,5 +1,5 @@
 import { pollService } from '../services';
-import { badRequest, internalServerError, notFound } from '../responses';
+import { badRequest, internalServerError, notFound, noContent, unprocessableEntity } from '../responses';
 
 export async function show(reqData, res) {
   const { urlData } = reqData;
@@ -11,7 +11,7 @@ export async function show(reqData, res) {
     if(poll)
       res.end(JSON.stringify(poll));
     else
-      notFound(res);
+      notFound(res, 'No such poll');
   } catch (err) {
     internalServerError(res);
   }
@@ -31,9 +31,28 @@ export async function create(reqData, res) {
 }
 
 export async function createVote(reqData, res) {
+  const { urlData, body } = reqData;
+  const pollId = urlData[2];
 
+  try {
+    const updatedPoll = await pollService.createVote(pollId, body);
+    if(!updatedPoll)
+      notFound(res);
+    else
+      noContent(res);
+  } catch (err) {
+    internalServerError(res);
+  }
 }
 
 export async function showStats(reqData, res) {
+  const { urlData } = reqData;
+  const id = urlData[2];
 
+  try {
+    const stats = await pollService.getStatsById(id);
+    res.end(JSON.stringify(stats));
+  } catch (err) {
+
+  }
 }

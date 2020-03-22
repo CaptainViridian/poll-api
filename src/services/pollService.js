@@ -20,3 +20,33 @@ export async function create(body) {
     throw err;
   }
 }
+
+export async function createVote(pollId, body) {
+  const { optionId } = body;
+
+  try {
+    const poll = await Poll.findOneAndUpdate(
+      { _id: pollId, 'options._id': optionId },
+      { $inc: { "options.$.votes": 1 } },
+    );
+    return poll;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function getStatsById(id) {
+  try {
+    const poll = await Poll.findById(id, 'views options');
+
+    const { views, options } = poll;
+
+    const votes = options.map( ({ _id, votes }) => (
+      { optionId: _id, qty: votes }
+    ));
+
+    return { views, votes };
+  } catch (err) {
+    throw err;
+  }
+}
