@@ -1,10 +1,18 @@
-import { bodyParser, bodyRequired, isMethodImplemented } from '../utils';
-import { badRequest, internalServerError, notImplemented } from '../responses';
+import body from './middleware/body';
+import authorize from './middleware/authorize';
+
+import { isMethodImplemented, testURLRegex } from '../utils';
+import { notImplemented } from '../responses';
+
 import createPollsRoutes from './pollRouter';
+import createAuthRoutes from './authRouter';
+
 import Router from './Router';
 
 const router = new Router();
+
 createPollsRoutes(router);
+createAuthRoutes(router);
 
 export async function handleRequest(req, res) {
   const { url, method } = req;
@@ -16,18 +24,14 @@ export async function handleRequest(req, res) {
     return;
   }
 
-  let body;
-  if(bodyRequired(method))
-    try {
-      body = await bodyParser(req);
-    } catch (e) {
-      if(e instanceof SyntaxError) {
-        badRequest(res);
-      }
-      else
-        internalServerError(res);
-      return;
-    }
+  try {
+    const reqBody = await body(req, res);
 
-  router.matchReqURL({ url, method, body }, res);
+    if(!testURLRegex('/authenticate', url))
+      await authorize(req, res);
+
+    router.matchReqURL({ url, method, body: reqBody }, res);
+  } catch (err) {
+    return;
+  }
 }

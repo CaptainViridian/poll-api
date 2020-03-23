@@ -10,6 +10,8 @@ export const noContent = (res) => sendResponse(204, undefined, res);
 
 export const unprocessableEntity = (res, message) => sendResponse(422, message, res);
 
+export const unauthorized = (res) => sendResponse(401, undefined, res);
+
 function sendResponse(statusCode, message, res) {
   res.statusCode = statusCode;
   res.end(message && JSON.stringify({ message }));
