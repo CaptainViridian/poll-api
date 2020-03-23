@@ -1,8 +1,5 @@
 import { createServer } from 'http';
-import dotenv from 'dotenv';
 import { handleRequest } from './routes';
-
-dotenv.config();
 
 const server = createServer(handleRequest);
 

@@ -8,6 +8,7 @@ module.exports = {
     'Atomics': 'readonly',
     'SharedArrayBuffer': 'readonly',
     'process': 'readonly',
+    'before': 'readonly',
     'beforeEach': 'readonly',
     'it': 'readonly',
     'describe': 'readonly',
