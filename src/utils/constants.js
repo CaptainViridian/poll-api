@@ -9,3 +9,9 @@ export const IMPLEMENTED_METHODS = {
 };
 
 export const ID_REGEX = '[0-9a-f]{24}';
+
+export const ENV = {
+  DEV: 'dev',
+  PROD: 'production',
+  TEST: 'test',
+};
