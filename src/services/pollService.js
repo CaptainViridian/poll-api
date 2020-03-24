@@ -45,6 +45,9 @@ export async function createVote(pollId, body) {
 export async function getStatsById(id) {
   const poll = await Poll.findById(id, 'views options');
 
+  if(!poll)
+    return;
+
   const { views, options } = poll;
 
   const votes = options.map( ({ _id, votes }) => (
