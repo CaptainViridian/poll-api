@@ -230,6 +230,17 @@ describe('Routes', () => {
         res.should.have.status(200);
         res.body.should.deep.equal(pollStats);
       });
+
+      it('should return not found when poll does not exist\'s stats', async () => {
+        const { randomId } = mock();
+
+        const res = await chai
+          .request(app)
+          .get(`/poll/${randomId}/stats`)
+          .set('x-access-token', token);
+
+        res.should.have.status(404);
+      });
     });
   });
 });

@@ -58,8 +58,12 @@ export async function showStats(reqData, res) {
 
   try {
     const stats = await pollService.getStatsById(id);
-    res.end(JSON.stringify(stats));
+    if(stats)
+      res.end(JSON.stringify(stats));
+    else
+      notFound(res, 'No such poll');
   } catch (err) {
-    internalServerError(res);
+    internalServerError(res)
+    console.log(err);
   }
 }
